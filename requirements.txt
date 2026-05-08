@@ -74,3 +74,4 @@ xgboost==3.2.0
 yarl==1.23.0
 websockets
 websocket-client
+python-telegram-bot
