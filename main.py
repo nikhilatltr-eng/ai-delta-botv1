@@ -1,5 +1,4 @@
 import time
-import asyncio
 
 from market.candle_fetcher import (
     get_candles
@@ -36,7 +35,8 @@ from orderflow.binance_ws import (
 )
 
 from alerts.telegram_alerts import (
-    send_alert
+    send_alert,
+    validate_telegram_config
 )
 
 # =========================
@@ -46,6 +46,8 @@ from alerts.telegram_alerts import (
 ai = AIModel()
 
 start_orderflow()
+
+validate_telegram_config()
 
 # =========================
 # TELEGRAM CONTROL
@@ -177,13 +179,10 @@ while True:
 
 """
 
-                asyncio.run(
-                    send_alert(message)
-                )
+                alert_sent = send_alert(message)
 
-                print(
-                    "TELEGRAM ALERT SENT"
-                )
+                if not alert_sent:
+                    print("TELEGRAM ALERT FAILED")
 
             last_signal = signal
 
